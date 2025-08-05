@@ -5,6 +5,7 @@ use std::{
     time::Duration,
 };
 
+use chrono::Local;
 use rodio::{
     ChannelCount, Decoder, OutputStreamBuilder, SampleRate, Sink, Source, source::SeekError,
 };
@@ -83,19 +84,9 @@ where
 
     #[inline]
     fn next(&mut self) -> Option<Self::Item> {
-        // TODO: send data to another thread for processing and display.
-        // For now, just print the time.
-        let now = std::time::SystemTime::now();
-        let duration = now
-            .duration_since(std::time::UNIX_EPOCH)
-            .unwrap_or_default();
-        let seconds = duration.as_secs() % 60;
-        let minutes = (duration.as_secs() / 60) % 60;
-        let hours = duration.as_secs() / 3600;
-        println!(
-            "sample timestamp {:02}:{:02}:{:02}",
-            hours, minutes, seconds
-        );
+        // Print the current local time in HH:MM:SS format
+        let now = Local::now();
+        println!("sample timestamp {}", now.format("%H:%M:%S"));
 
         self.input.next()
     }
