@@ -48,12 +48,13 @@ pub fn visualizer<I>(input: I) -> Visualizer<I>
 where
     I: Source,
 {
-    Visualizer { input }
+    Visualizer { input, sample_index: 0 }
 }
 
 #[derive(Clone, Debug)]
 pub struct Visualizer<I> {
     input: I,
+    sample_index: u64,
 }
 
 impl<I> Visualizer<I> {
@@ -84,9 +85,12 @@ where
 
     #[inline]
     fn next(&mut self) -> Option<Self::Item> {
-        // Print the current local time in HH:MM:SS format
+        // TODO: process sample data
+        // for now, just print the time.
         let now = Local::now();
-        println!("sample timestamp {}", now.format("%H:%M:%S"));
+        println!("sample {} at {}", self.sample_index, now.format("%H:%M:%S%.3f"));
+
+        self.sample_index += 1;
 
         self.input.next()
     }
