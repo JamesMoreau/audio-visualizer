@@ -48,7 +48,10 @@ pub fn visualizer<I>(input: I) -> Visualizer<I>
 where
     I: Source,
 {
-    Visualizer { input, sample_index: 0 }
+    Visualizer {
+        input,
+        sample_index: 0,
+    }
 }
 
 #[derive(Clone, Debug)]
@@ -88,7 +91,11 @@ where
         // TODO: process sample data
         // for now, just print the time.
         let now = Local::now();
-        println!("sample {} at {}", self.sample_index, now.format("%H:%M:%S%.3f"));
+        println!(
+            "sample {} at {}",
+            self.sample_index,
+            now.format("%H:%M:%S%.3f")
+        );
 
         self.sample_index += 1;
 
